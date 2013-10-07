@@ -1,0 +1,21 @@
+#!/bin/bash
+#set -x
+param_num=$#
+if [ $param_num -lt 2 ]; then
+  echo "usage: "
+  echo "svn-branches app_name branches_name"
+  exit
+fi
+
+app_name=$1
+branches_name=`date "+%Y-%m-%d_%H_%M_%S"`_$2
+trunk=`awk '{if($1=="'${app_name}'") print $2}' svn-list`
+
+if [ -Z "$trunk" ]; then
+  echo "can not find $app_name svn trunk !"
+  exit
+fi
+
+branches=`echo $trunk | sed "s/trunk/branches/g"`
+echo "svn cp $trunk $branches-$branches_name | pbcopy"
+svn cp $trunk $branches-$branches_name | pbcopy
