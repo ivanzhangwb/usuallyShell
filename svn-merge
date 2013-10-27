@@ -1,0 +1,18 @@
+#!/bin/bash
+set -x	
+param_num=$#
+if [ $param_num -lt 1 ]; then
+  echo "usage: "
+  echo "svn-merge app_name"
+  exit
+fi
+app_name=$1
+trunk=`awk '{if($1=="'${app_name}'") print $2}' ~/bin/svn-list`
+echo "remove old trunk"
+rm -rf ~/tmp/trunk
+svn co $trunk ~/tmp/trunk
+current_branches=`svn info | grep "^URL" | awk '{print $2}'`
+rversion=`svn log --stop-on-copy $current_branches | grep "^r" | tail -1 | awk '{print $1}'`
+echo "merge $current_branches $rversion:HEAD with trunk" 
+cd ~/tmp/trunk
+svn merge -$rversion:HEAD $current_branches
