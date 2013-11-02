@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -x
+set -x
 param_num=$#
 if [ $param_num -lt 2 ]; then
   echo "usage: "
@@ -17,5 +17,5 @@ if [ -Z "$trunk" ]; then
 fi
 
 branches=`echo $trunk | sed "s/trunk/branches/g"`
-echo "svn cp $trunk $branches-$branches_name | pbcopy"
-svn cp $trunk $branches-$branches_name | pbcopy
+echo "svn cp $trunk $branches/zwb-$branches_name | pbcopy"
+#svn cp $trunk $branches-$branches_name | pbcopy
