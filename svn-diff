@@ -1,0 +1,5 @@
+#!/bin/bash
+currnet_branches=`svn-url`
+rversion=`svn log --stop-on-copy $current_branches | grep "^r" | tail -1 | awk '{print $1}'`
+
+svn diff -$rversion:HEAD $current_branches
